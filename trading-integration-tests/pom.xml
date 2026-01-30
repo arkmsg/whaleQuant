@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.whaleal.quant</groupId>
+        <artifactId>quant-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>stocks-integration-tests</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Stocks Integration Tests</name>
+    <description>股票量化平台集成测试</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lombok.version>1.18.30</lombok.version>
+        <junit.version>5.10.1</junit.version>
+        <spring.boot.version>2.7.18</spring.boot.version>
+    </properties>
+
+    <dependencies>
+        <!-- Core Module -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading-core</artifactId>
+        </dependency>
+
+        <!-- Common Module -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading-common</artifactId>
+        </dependency>
+
+        <!-- Infrastructure Layer -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading-indicator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>alpha4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading-calendar</artifactId>
+        </dependency>
+
+        <!-- Adapter Layer -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading-data</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>longport</artifactId>
+        </dependency>
+
+        <!-- Application Layer -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading-risk</artifactId>
+        </dependency>
+
+        <!-- Trading Module -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading</artifactId>
+        </dependency>
+
+        <!-- Strategy Module -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading-strategy</artifactId>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.11.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.3</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

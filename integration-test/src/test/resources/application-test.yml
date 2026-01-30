@@ -1,0 +1,25 @@
+# 测试配置文件
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+
+# 长桥配置
+com:
+  whaleal:
+    quant:
+      longport:
+        app-key: test
+        app-secret: test
+        access-token: test
+      binance:
+        api-key: test
+        secret-key: test
+      risk:
+        max-order-amount: 100000
+        price-deviation-threshold: 5
+        max-total-position-value: 1000000
