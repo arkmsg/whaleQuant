@@ -387,8 +387,8 @@ java -jar quant-service/quant-platform/quant-platform-backend/target/quant-platf
 
 ## 联系方式
 
-- **项目地址**：https://github.com/whaleal/quant-trading-platform
-- **问题反馈**：https://github.com/whaleal/quant-trading-platform/issues
+- **项目地址**：https://github.com/arkmsg/whaleQuant
+- **问题反馈**：https://github.com/arkmsg/whaleQuant/issues
 
 ---
 
