@@ -1,9 +1,9 @@
 package com.whaleal.quant.alpha.factor;
 
-import com.whaleal.quant.base.model.Bar;
-import com.whaleal.quant.base.model.Order;
-import com.whaleal.quant.base.model.Position;
-import com.whaleal.quant.base.model.Ticker;
+import com.whaleal.quant.model.Bar;
+import com.whaleal.quant.model.Order;
+import com.whaleal.quant.model.Position;
+import com.whaleal.quant.model.Ticker;
 
 import java.util.List;
 

@@ -2,10 +2,11 @@ package com.whaleal.quant.data.service;
 
 import com.whaleal.quant.model.Bar;
 import com.whaleal.quant.data.document.CandlestickDocument;
-import com.whaleal.quant.data.repository.CandlestickRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -26,9 +27,6 @@ import java.util.stream.Collectors;
 public class DataService {
 
     private static final String CACHE_NAME = "candlestick";
-
-    @Autowired
-    private CandlestickRepository candlestickRepository;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -62,9 +60,11 @@ public class DataService {
         // 缓存未命中，从MongoDB获取
         log.debug("从MongoDB获取历史数据: {} {}, {} - {}", symbol, interval, startTime, endTime);
 
-        List<CandlestickDocument> documents = candlestickRepository.findBySymbolAndIntervalAndStartTimeBetween(
-                symbol, interval, startTime, endTime
-        );
+        Query query = new Query();
+        query.addCriteria(Criteria.where("symbol").is(symbol));
+        query.addCriteria(Criteria.where("interval").is(interval));
+        query.addCriteria(Criteria.where("startTime").gte(startTime).lte(endTime));
+        List<CandlestickDocument> documents = mongoTemplate.find(query, CandlestickDocument.class);
 
         // 转换为Bar模型
         List<Bar> bars = documents.stream()
@@ -91,7 +91,7 @@ public class DataService {
         document.preProcess();
 
         // 保存到MongoDB
-        candlestickRepository.save(document);
+        mongoTemplate.save(document);
         log.debug("保存K线数据到MongoDB: {} {}, {}", bar.getSymbol(), bar.getInterval(), bar.getTimestamp());
 
         // 更新缓存
@@ -118,7 +118,7 @@ public class DataService {
                 .collect(Collectors.toList());
 
         // 批量保存到MongoDB
-        candlestickRepository.saveAll(documents);
+        mongoTemplate.insertAll(documents);
         log.debug("批量保存K线数据到MongoDB: {}条", bars.size());
 
         // 清除相关缓存
@@ -126,6 +126,41 @@ public class DataService {
             String cacheKey = buildCacheKey(bar.getSymbol(), bar.getInterval().toString(), bar.getTimestamp(), bar.getTimestamp());
             cacheService.evict(CACHE_NAME, cacheKey);
         }
+    }
+
+    /**
+     * 根据交易对和K线周期查询最新的K线数据
+     *
+     * @param symbol 交易对/股票代码
+     * @param interval K线周期
+     * @param limit 限制数量
+     * @return K线数据列表
+     */
+    public List<Bar> findLatestBars(String symbol, String interval, int limit) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("symbol").is(symbol));
+        query.addCriteria(Criteria.where("interval").is(interval));
+        query.limit(limit);
+        query.with(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "startTime"));
+        
+        List<CandlestickDocument> documents = mongoTemplate.find(query, CandlestickDocument.class);
+        return documents.stream()
+                .map(this::convertToBar)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 删除指定交易对和K线周期的K线数据
+     *
+     * @param symbol 交易对/股票代码
+     * @param interval K线周期
+     */
+    public void deleteBySymbolAndInterval(String symbol, String interval) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("symbol").is(symbol));
+        query.addCriteria(Criteria.where("interval").is(interval));
+        mongoTemplate.remove(query, CandlestickDocument.class);
+        log.debug("删除K线数据: {} {}", symbol, interval);
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.whaleal.quant.alpha.factor;
 
-import com.whaleal.quant.base.model.Bar;
-import com.whaleal.quant.base.model.Ticker;
+import com.whaleal.quant.model.Bar;
+import com.whaleal.quant.model.Ticker;
 
 import java.util.List;
 import java.util.Map;

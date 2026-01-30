@@ -81,7 +81,7 @@ public class Candlestick {
      * @param source stocks-indicator-sdk 的 Candlestick
      * @return alpha4j 的高性能 Candlestick
      */
-    public static Candlestick from(com.whaleal.quant.indicator.model.Candlestick source) {
+    public static Candlestick from(com.whaleal.quant.model.Candlestick source) {
         if (source == null) {
             return null;
         }
@@ -99,12 +99,12 @@ public class Candlestick {
     }
 
     /**
-     * 转换为 stocks-indicator-sdk 的 Candlestick
+     * 转换为 trading-base 的 Candlestick
      *
-     * @return stocks-indicator-sdk 的 Candlestick
+     * @return trading-base 的 Candlestick
      */
-    public com.whaleal.quant.indicator.model.Candlestick toIndicatorCandlestick() {
-        return com.whaleal.quant.indicator.model.Candlestick.builder()
+    public com.whaleal.quant.model.Candlestick toBaseCandlestick() {
+        return com.whaleal.quant.model.Candlestick.builder()
                 .symbol(symbol)
                 .timestamp(timestamp)
                 .open(open)
