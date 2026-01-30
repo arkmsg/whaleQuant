@@ -1,6 +1,6 @@
 package com.whaleal.quant.data.service;
 
-import com.whaleal.quant.core.model.Bar;
+import com.whaleal.quant.model.Bar;
 import com.whaleal.quant.data.document.CandlestickDocument;
 import com.whaleal.quant.data.repository.CandlestickRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,21 +24,21 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class DataService {
-    
+
     private static final String CACHE_NAME = "candlestick";
-    
+
     @Autowired
     private CandlestickRepository candlestickRepository;
-    
+
     @Autowired
     private MongoTemplate mongoTemplate;
-    
+
     @Autowired
     private CacheService cacheService;
-    
+
     @Autowired
     private MarketStatusService marketStatusService;
-    
+
     /**
      * 获取历史K线数据
      * 优先从缓存获取，缓存未命中则从MongoDB获取
@@ -52,31 +52,31 @@ public class DataService {
     public List<Bar> getHistory(String symbol, String interval, Instant startTime, Instant endTime) {
         // 构建缓存键
         String cacheKey = buildCacheKey(symbol, interval, startTime, endTime);
-        
+
         // 尝试从缓存获取
         Optional<List<Bar>> cachedData = cacheService.get(CACHE_NAME, cacheKey);
         if (cachedData.isPresent()) {
             return cachedData.get();
         }
-        
+
         // 缓存未命中，从MongoDB获取
         log.debug("从MongoDB获取历史数据: {} {}, {} - {}", symbol, interval, startTime, endTime);
-        
+
         List<CandlestickDocument> documents = candlestickRepository.findBySymbolAndIntervalAndStartTimeBetween(
                 symbol, interval, startTime, endTime
         );
-        
+
         // 转换为Bar模型
         List<Bar> bars = documents.stream()
                 .map(this::convertToBar)
                 .collect(Collectors.toList());
-        
+
         // 将数据放入缓存
         cacheService.put(CACHE_NAME, cacheKey, bars);
-        
+
         return bars;
     }
-    
+
     /**
      * 保存K线数据
      * 同时保存到MongoDB和缓存
@@ -86,20 +86,20 @@ public class DataService {
     public void saveBar(Bar bar) {
         // 转换为Document
         CandlestickDocument document = convertToDocument(bar);
-        
+
         // 调用preProcess方法设置时间戳
         document.preProcess();
-        
+
         // 保存到MongoDB
         candlestickRepository.save(document);
         log.debug("保存K线数据到MongoDB: {} {}, {}", bar.getSymbol(), bar.getInterval(), bar.getTimestamp());
-        
+
         // 更新缓存
         String cacheKey = buildCacheKey(bar.getSymbol(), bar.getInterval().toString(), bar.getTimestamp(), bar.getTimestamp());
         cacheService.evict(CACHE_NAME, cacheKey);
         log.debug("更新缓存: {}", cacheKey);
     }
-    
+
     /**
      * 批量保存K线数据
      * 同时保存到MongoDB和缓存
@@ -110,24 +110,24 @@ public class DataService {
         if (bars.isEmpty()) {
             return;
         }
-        
+
         // 转换为Document
         List<CandlestickDocument> documents = bars.stream()
                 .map(this::convertToDocument)
                 .peek(CandlestickDocument::preProcess) // 调用preProcess方法设置时间戳
                 .collect(Collectors.toList());
-        
+
         // 批量保存到MongoDB
         candlestickRepository.saveAll(documents);
         log.debug("批量保存K线数据到MongoDB: {}条", bars.size());
-        
+
         // 清除相关缓存
         for (Bar bar : bars) {
             String cacheKey = buildCacheKey(bar.getSymbol(), bar.getInterval().toString(), bar.getTimestamp(), bar.getTimestamp());
             cacheService.evict(CACHE_NAME, cacheKey);
         }
     }
-    
+
     /**
      * 将Bar模型转换为CandlestickDocument
      *
@@ -149,7 +149,7 @@ public class DataService {
         document.setSource("DATA_SERVICE");
         return document;
     }
-    
+
     /**
      * 将CandlestickDocument转换为Bar模型
      *
@@ -168,7 +168,7 @@ public class DataService {
         bar.setTimestamp(document.getStartTime());
         return bar;
     }
-    
+
     /**
      * 构建缓存键
      *

@@ -123,10 +123,10 @@ public class MyStrategy extends BaseStrategy {
 #### 2. 使用技术指标
 
 ```java
-import com.whaleal.quant.core.indicator.MACDIndicator;
-import com.whaleal.quant.core.indicator.RSIIndicator;
-import com.whaleal.quant.core.indicator.BOLLIndicator;
-import com.whaleal.quant.core.model.Bar;
+import com.whaleal.quant.model.indicators.MACDIndicator;
+import com.whaleal.quant.model.indicators.RSIIndicator;
+import com.whaleal.quant.model.indicators.BOLLIndicator;
+import com.whaleal.quant.model.Bar;
 
 import java.util.List;
 
@@ -154,10 +154,10 @@ public class TechnicalAnalysisExample {
 #### 3. 使用风险管理
 
 ```java
-import com.whaleal.quant.core.risk.DynamicSuppressionRiskControl;
-import com.whaleal.quant.core.risk.UMPRiskControl;
-import com.whaleal.quant.core.risk.TimeManagementRiskControl;
-import com.whaleal.quant.core.model.Order;
+import com.whaleal.quant.risk.DynamicSuppressionRiskControl;
+import com.whaleal.quant.risk.UMPRiskControl;
+import com.whaleal.quant.risk.TimeManagementRiskControl;
+import com.whaleal.quant.model.Order;
 
 public class RiskManagementExample {
 
@@ -211,7 +211,7 @@ public class AIDecisionExample {
 import com.whaleal.quant.backtest.engine.LayeredBacktestEngine;
 import com.whaleal.quant.backtest.model.BacktestConfig;
 import com.whaleal.quant.backtest.result.BacktestResult;
-import com.whaleal.quant.core.model.Bar;
+import com.whaleal.quant.model.Bar;
 
 import java.util.List;
 
@@ -235,7 +235,7 @@ public class BacktestExample {
 #### 6. 使用市场时间管理
 
 ```java
-import com.whaleal.quant.core.market.MarketTimeManager;
+import com.whaleal.quant.market.MarketTimeManager;
 
 public class MarketTimeExample {
 
@@ -260,7 +260,7 @@ public class MarketTimeExample {
 #### 7. 使用WebSocket实时推送
 
 ```java
-import com.whaleal.quant.core.websocket.WebSocketServer;
+import com.whaleal.quant.websocket.WebSocketServer;
 
 public class WebSocketExample {
 

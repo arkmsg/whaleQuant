@@ -1,7 +1,7 @@
 package com.whaleal.quant.engine.risk.rule;
 
-import com.whaleal.quant.core.model.Order;
-import com.whaleal.quant.core.model.Position;
+import com.whaleal.quant.model.Order;
+import com.whaleal.quant.model.Position;
 import com.whaleal.quant.engine.risk.config.RiskConfig;
 import com.whaleal.quant.engine.risk.exception.RiskException;
 
@@ -43,15 +43,15 @@ public class PositionConcentrationRule implements RiskRule {
     public void checkOrder(Order order, RiskConfig config) {
         // 计算当前总持仓价值
         BigDecimal totalPositionValue = calculateTotalPositionValue();
-        
+
         // 计算订单执行后的新持仓价值
         BigDecimal orderValue = order.getPrice().multiply(order.getQuantity());
         BigDecimal newTotalValue = totalPositionValue.add(orderValue);
-        
+
         // 检查是否超过总仓位限制
-        if (config.getMaxTotalPositionValue() != null && 
+        if (config.getMaxTotalPositionValue() != null &&
             newTotalValue.compareTo(config.getMaxTotalPositionValue()) > 0) {
-            throw new RiskException("Total position value exceeded: " + newTotalValue + 
+            throw new RiskException("Total position value exceeded: " + newTotalValue +
                                    ", max allowed: " + config.getMaxTotalPositionValue());
         }
 
@@ -59,7 +59,7 @@ public class PositionConcentrationRule implements RiskRule {
         if (newTotalValue.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal concentrationPercentage = orderValue.divide(newTotalValue, 4, BigDecimal.ROUND_HALF_UP);
             if (concentrationPercentage.compareTo(maxConcentrationPercentage) > 0) {
-                throw new RiskException("Position concentration exceeded: " + concentrationPercentage.multiply(BigDecimal.valueOf(100)) + "%" + 
+                throw new RiskException("Position concentration exceeded: " + concentrationPercentage.multiply(BigDecimal.valueOf(100)) + "%" +
                                        ", max allowed: " + maxConcentrationPercentage.multiply(BigDecimal.valueOf(100)) + "%");
             }
         }
@@ -69,20 +69,20 @@ public class PositionConcentrationRule implements RiskRule {
     public void checkPosition(Position position, RiskConfig config) {
         // 计算当前总持仓价值
         BigDecimal totalPositionValue = calculateTotalPositionValue();
-        
+
         // 计算当前持仓的价值
         BigDecimal positionValue = position.getCurrentPrice().multiply(position.getQuantity());
-        
+
         // 检查单个标的集中度
         if (totalPositionValue.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal concentrationPercentage = positionValue.divide(totalPositionValue, 4, BigDecimal.ROUND_HALF_UP);
             if (concentrationPercentage.compareTo(maxConcentrationPercentage) > 0) {
-                throw new RiskException("Position concentration exceeded: " + concentrationPercentage.multiply(BigDecimal.valueOf(100)) + "%" + 
+                throw new RiskException("Position concentration exceeded: " + concentrationPercentage.multiply(BigDecimal.valueOf(100)) + "%" +
                                        ", max allowed: " + maxConcentrationPercentage.multiply(BigDecimal.valueOf(100)) + "%");
             }
         }
     }
-    
+
     /**
      * 计算总持仓价值
      * @return 总持仓价值

@@ -5,6 +5,8 @@
     <file url="file://$PROJECT_DIR$/alpha4j/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/binance-sdk/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/binance-sdk/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/integration-test/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/integration-test/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/longport-sdk/src/main/java" charset="UTF-8" />
@@ -27,6 +29,12 @@
     <file url="file://$PROJECT_DIR$/stocks-risk-manager/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/stocks-sdk/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/stocks-sdk/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-ai/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-ai/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-backtest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-backtest/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-base/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-base/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-calendar/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-calendar/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-common/src/main/java" charset="UTF-8" />
@@ -35,10 +43,16 @@
     <file url="file://$PROJECT_DIR$/trading-core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-data/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-data/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-engine/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-engine/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-indicator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-indicator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-metrics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-metrics/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-risk/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-risk/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-slippage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-slippage/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-strategy/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading-strategy/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trading/src/main/java" charset="UTF-8" />

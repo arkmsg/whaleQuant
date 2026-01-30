@@ -1,6 +1,6 @@
 package com.whaleal.quant.ai.model;
 
-import com.whaleal.quant.core.model.Bar;
+import com.whaleal.quant.model.Bar;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,18 +9,18 @@ import java.util.Map;
 /**
  * 树模型AI实现
  * 基于树模型的趋势预测和交易信号生成
- * 
+ *
  * @author whaleal
  * @version 1.0.0
  */
 public class TreeAIModel extends BaseAIModel {
-    
+
     @Override
     protected void initializeInternal(Map<String, Object> config) {
         // 初始化树模型参数
         // 例如：树深度、叶子节点数等
     }
-    
+
     @Override
     protected ModelInfo createModelInfo() {
         return new ModelInfo(
@@ -33,7 +33,7 @@ public class TreeAIModel extends BaseAIModel {
             )
         );
     }
-    
+
     @Override
     protected PredictionResult doPredictTrend(String ticker, List<Bar> bars) {
         // 基于树模型的趋势预测实现
@@ -42,14 +42,14 @@ public class TreeAIModel extends BaseAIModel {
         BigDecimal openPrice = bars.get(bars.size() - 1).getOpen();
         BigDecimal highPrice = bars.get(bars.size() - 1).getHigh();
         BigDecimal lowPrice = bars.get(bars.size() - 1).getLow();
-        
+
         // 基于价格模式的简单树模型逻辑
         double priceChange = closePrice.subtract(openPrice).divide(openPrice, 6, BigDecimal.ROUND_HALF_UP).doubleValue();
         double priceRange = highPrice.subtract(lowPrice).divide(openPrice, 6, BigDecimal.ROUND_HALF_UP).doubleValue();
-        
+
         PredictionResult.TrendDirection trendDirection;
         double confidence;
-        
+
         if (priceChange > 0.01 && priceRange < 0.03) {
             trendDirection = PredictionResult.TrendDirection.BULLISH;
             confidence = 0.75;
@@ -70,7 +70,7 @@ public class TreeAIModel extends BaseAIModel {
                     downCount++;
                 }
             }
-            
+
             if (upCount > downCount) {
                 trendDirection = PredictionResult.TrendDirection.BULLISH;
                 confidence = 0.6 + (upCount - downCount) * 0.1;
@@ -79,9 +79,9 @@ public class TreeAIModel extends BaseAIModel {
                 confidence = 0.6 + (downCount - upCount) * 0.1;
             }
         }
-        
+
         double predictedPrice = closePrice.multiply(BigDecimal.valueOf(1 + priceChange)).doubleValue();
-        
+
         return new PredictionResult(
             ticker,
             predictedPrice,
@@ -89,7 +89,7 @@ public class TreeAIModel extends BaseAIModel {
             trendDirection
         );
     }
-    
+
     @Override
     protected Map<String, PredictionResult> doPredictBatchTrend(List<String> tickers, Map<String, List<Bar>> barsMap) {
         // 批量趋势预测实现
@@ -99,7 +99,7 @@ public class TreeAIModel extends BaseAIModel {
         }
         return results;
     }
-    
+
     @Override
     protected MarketSentiment doAnalyzeMarketSentiment(String ticker, List<Bar> bars) {
         // 市场情绪分析实现
@@ -107,37 +107,37 @@ public class TreeAIModel extends BaseAIModel {
         BigDecimal openPrice = bars.get(bars.size() - 1).getOpen();
         BigDecimal highPrice = bars.get(bars.size() - 1).getHigh();
         BigDecimal lowPrice = bars.get(bars.size() - 1).getLow();
-        
+
         double priceChange = closePrice.subtract(openPrice).divide(openPrice, 6, BigDecimal.ROUND_HALF_UP).doubleValue();
         double priceRange = highPrice.subtract(lowPrice).divide(openPrice, 6, BigDecimal.ROUND_HALF_UP).doubleValue();
-        
+
         double sentimentScore;
-        
+
         if (priceChange > 0) {
             sentimentScore = priceChange * (1 - priceRange / 0.05);
         } else {
             sentimentScore = priceChange * (1 - priceRange / 0.05);
         }
-        
+
         MarketSentiment.SentimentType sentimentType = MarketSentiment.SentimentType.fromScore(sentimentScore);
-        
+
         return new MarketSentiment(
             ticker,
             sentimentType,
             sentimentScore
         );
     }
-    
+
     @Override
     protected TradingSignal doGenerateTradingSignal(String ticker, List<Bar> bars) {
         // 交易信号生成实现
         PredictionResult prediction = doPredictTrend(ticker, bars);
         MarketSentiment sentiment = doAnalyzeMarketSentiment(ticker, bars);
-        
+
         TradingSignal.SignalType signalType;
         double confidence = (prediction.getConfidence() + Math.abs(sentiment.getSentimentScore())) / 2;
         double recommendedPrice = bars.get(bars.size() - 1).getClose().doubleValue();
-        
+
         if (prediction.getTrendDirection() == PredictionResult.TrendDirection.BULLISH && sentiment.getSentimentType() == MarketSentiment.SentimentType.BULLISH) {
             signalType = TradingSignal.SignalType.BUY;
         } else if (prediction.getTrendDirection() == PredictionResult.TrendDirection.BEARISH && sentiment.getSentimentType() == MarketSentiment.SentimentType.BEARISH) {
@@ -145,7 +145,7 @@ public class TreeAIModel extends BaseAIModel {
         } else {
             signalType = TradingSignal.SignalType.HOLD;
         }
-        
+
         return new TradingSignal(
             ticker,
             signalType,
@@ -153,7 +153,7 @@ public class TreeAIModel extends BaseAIModel {
             recommendedPrice
         );
     }
-    
+
     @Override
     protected void cleanupResources() {
         // 清理树模型资源

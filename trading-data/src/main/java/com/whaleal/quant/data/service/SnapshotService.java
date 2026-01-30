@@ -1,7 +1,7 @@
 package com.whaleal.quant.data.service;
 
-import com.whaleal.quant.core.model.Ticker;
-import com.whaleal.quant.core.trace.TraceContext;
+import com.whaleal.quant.model.Ticker;
+import com.whaleal.quant.trace.TraceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -69,7 +69,7 @@ public class SnapshotService {
                     oos.writeObject(ticker);
                 }
 
-                log.info("[{}] 保存行情快照成功: {}，包含 {} 条数据", 
+                log.info("[{}] 保存行情快照成功: {}，包含 {} 条数据",
                         traceContext.getTraceId(), snapshotId, tickers.size());
             }
 
