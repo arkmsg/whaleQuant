@@ -5,9 +5,9 @@ import com.whaleal.quant.alpha.factor.PickStockFactor;
 import com.whaleal.quant.alpha.factor.PickTimeFactor;
 import com.whaleal.quant.alpha.factor.SellFactor;
 import com.whaleal.quant.model.Bar;
-import com.whaleal.quant.model.Order;
-import com.whaleal.quant.model.Position;
 import com.whaleal.quant.model.Ticker;
+import com.whaleal.quant.model.trading.Order;
+import com.whaleal.quant.model.trading.Position;
 import com.whaleal.quant.strategy.event.MarketDataEvent;
 import com.whaleal.quant.trading.service.TradingService;
 
@@ -163,7 +163,14 @@ public class StrategyEngine {
         for (SellFactor sellFactor : sellFactors) {
             if (sellFactor.shouldSell(symbol, position, order, bars, ticker)) {
                 // 执行卖出操作
-                tradingService.sell(symbol, position.getQuantity(), ticker.getPrice());
+                Order sellOrder = Order.builder()
+                    .symbol(symbol)
+                    .side("SELL")
+                    .type("MARKET")
+                    .quantity(position.getQuantity())
+                    .price(ticker.getPrice())
+                    .build();
+                tradingService.placeOrder(sellOrder);
                 positions.remove(symbol);
                 orders.remove(symbol);
                 break;
@@ -198,14 +205,20 @@ public class StrategyEngine {
         // 检查是否买入
         if (buySignalStrength > 0.5) {
             // 执行买入操作
-            Order order = tradingService.buy(symbol, 100, ticker.getPrice());
-            orders.put(symbol, order);
+            Order buyOrder = Order.builder()
+                .symbol(symbol)
+                .side("BUY")
+                .type("MARKET")
+                .quantity(java.math.BigDecimal.valueOf(100))
+                .price(ticker.getPrice())
+                .build();
+            tradingService.placeOrder(buyOrder);
+            orders.put(symbol, buyOrder);
             // 模拟持仓
-            Position position = new Position();
-            position.setSymbol(symbol);
-            position.setSide(Position.PositionSide.LONG);
-            position.setQuantity(order.getQuantity());
-            position.setAvgPrice(order.getPrice());
+            Position position = Position.builder()
+                .symbol(symbol)
+                .quantity(buyOrder.getQuantity())
+                .build();
             positions.put(symbol, position);
         }
     }
@@ -224,7 +237,14 @@ public class StrategyEngine {
             Ticker ticker = symbolTickerMap.get(symbol);
             List<Bar> bars = symbolBarsMap.get(symbol);
             if (ticker != null && bars != null) {
-                MarketDataEvent event = new MarketDataEvent(symbol, ticker, bars);
+                MarketDataEvent event = MarketDataEvent.builder()
+                    .symbol(symbol)
+                    .ticker(ticker)
+                    .bars(bars)
+                    .eventId("market_data_" + System.currentTimeMillis())
+                    .timestamp(System.currentTimeMillis())
+                    .source("SYSTEM")
+                    .build();
                 onMarketData(event);
             }
         }

@@ -1,7 +1,5 @@
 package com.whaleal.quant.slippage.calculator;
 
-import com.whaleal.quant.model.Order;
-
 import java.math.BigDecimal;
 
 /**
@@ -38,12 +36,12 @@ public class PercentageCommissionCalculator implements CommissionCalculator {
     public BigDecimal calculateCommission(Order order, BigDecimal executionPrice) {
         BigDecimal orderValue = executionPrice.multiply(order.getQuantity());
         BigDecimal commission = orderValue.multiply(commissionRate);
-        
+
         // 确保手续费不低于最低值
         if (commission.compareTo(minimumCommission) < 0) {
             return minimumCommission;
         }
-        
+
         return commission;
     }
 

@@ -5,8 +5,8 @@ import com.whaleal.quant.backtest.model.BacktestConfig;
 import com.whaleal.quant.backtest.model.BacktestContext;
 import com.whaleal.quant.backtest.result.BacktestResult;
 import com.whaleal.quant.strategy.core.StrategyEngine;
-import com.whaleal.quant.engine.trading.model.trading.Order;
-import com.whaleal.quant.engine.trading.model.trading.Position;
+import com.whaleal.quant.model.trading.Order;
+import com.whaleal.quant.model.trading.Position;
 import com.whaleal.quant.strategy.event.MarketDataEvent;
 
 import java.time.LocalDateTime;

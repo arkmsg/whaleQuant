@@ -1,9 +1,9 @@
 package com.whaleal.quant.trading.service;
 
-import com.whaleal.quant.trading.model.trading.Order;
-import com.whaleal.quant.trading.model.trading.Position;
-import com.whaleal.quant.trading.model.trading.TradeExecution;
-import com.whaleal.quant.trading.model.trading.TradeSignal;
+import com.whaleal.quant.model.trading.Order;
+import com.whaleal.quant.model.trading.Position;
+import com.whaleal.quant.model.trading.TradeExecution;
+import com.whaleal.quant.model.trading.TradeSignal;
 
 import java.util.List;
 

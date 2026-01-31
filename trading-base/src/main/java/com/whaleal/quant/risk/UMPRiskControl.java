@@ -1,6 +1,6 @@
 package com.whaleal.quant.risk;
 
-import com.whaleal.quant.model.Order;
+import com.whaleal.quant.model.trading.Order;
 
 public class UMPRiskControl implements RiskControlSystem {
 

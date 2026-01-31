@@ -12,12 +12,12 @@ public class AIDecisionEngine {
     }
     
     public TradingSignal generateSignal(String symbol, MarketSentiment sentiment, double technicalScore) {
-        // 使用正确的方法名
-        PredictionResult prediction = new PredictionResult();
+        // 使用正确的构造函数
+        PredictionResult prediction = new PredictionResult(symbol, 0.0, technicalScore, PredictionResult.TrendDirection.NEUTRAL);
         
         Map<String, Double> factors = new HashMap<>();
         factors.put("technicalScore", technicalScore);
-        factors.put("marketSentimentScore", sentiment.getScore());
+        factors.put("marketSentimentScore", sentiment.getSentimentScore());
         factors.put("volumeScore", calculateVolumeScore(prediction));
         factors.put("riskScore", calculateRiskScore(prediction));
         
@@ -29,9 +29,8 @@ public class AIDecisionEngine {
         return new TradingSignal(
             symbol,
             signalType,
-            confidence,
-            strength.toString(),
-            "AI-generated signal based on multiple factors"
+            confidence / 100.0, // 转换为0-1范围
+            0.0 // 推荐价格，暂时设为0.0
         );
     }
     
@@ -46,9 +45,9 @@ public class AIDecisionEngine {
     }
     
     private TradingSignal.SignalType determineSignalType(PredictionResult prediction, MarketSentiment sentiment) {
-        if (prediction.getDirection() == PredictionResult.TrendDirection.UP && sentiment.getType() == MarketSentiment.SentimentType.BULLISH) {
+        if (prediction.getTrendDirection() == PredictionResult.TrendDirection.BULLISH && sentiment.getSentimentType() == MarketSentiment.SentimentType.BULLISH) {
             return TradingSignal.SignalType.BUY;
-        } else if (prediction.getDirection() == PredictionResult.TrendDirection.DOWN && sentiment.getType() == MarketSentiment.SentimentType.BEARISH) {
+        } else if (prediction.getTrendDirection() == PredictionResult.TrendDirection.BEARISH && sentiment.getSentimentType() == MarketSentiment.SentimentType.BEARISH) {
             return TradingSignal.SignalType.SELL;
         } else {
             return TradingSignal.SignalType.HOLD;

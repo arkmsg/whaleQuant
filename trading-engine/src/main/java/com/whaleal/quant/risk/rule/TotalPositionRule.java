@@ -1,7 +1,7 @@
 package com.whaleal.quant.risk.rule;
 
-import com.whaleal.quant.model.Order;
-import com.whaleal.quant.model.Position;
+import com.whaleal.quant.model.trading.Order;
+import com.whaleal.quant.model.trading.Position;
 import com.whaleal.quant.risk.config.RiskConfig;
 import com.whaleal.quant.risk.exception.TotalPositionExceededException;
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ public class TotalPositionRule implements RiskRule {
             // 计算订单执行后的总仓位价值
             BigDecimal orderValue = order.getPrice().multiply(order.getQuantity());
             BigDecimal newTotalValue = totalPositionValue.add(orderValue);
-            
+
             if (newTotalValue.compareTo(config.getMaxTotalPositionValue()) > 0) {
                 throw new TotalPositionExceededException(
                         "Total position value will exceed limit after order: " + newTotalValue + ", max allowed: " + config.getMaxTotalPositionValue()

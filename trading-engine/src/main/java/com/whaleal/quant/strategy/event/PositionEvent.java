@@ -1,6 +1,6 @@
 package com.whaleal.quant.strategy.event;
 
-import com.whaleal.quant.trading.model.trading.Position;
+import com.whaleal.quant.model.trading.Position;
 import lombok.Builder;
 import lombok.Data;
 

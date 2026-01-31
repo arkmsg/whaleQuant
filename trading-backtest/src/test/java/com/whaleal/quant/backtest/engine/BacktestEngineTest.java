@@ -54,6 +54,11 @@ public class BacktestEngineTest {
                 System.out.println("Sell: " + symbol + " " + quantity + " @ " + price);
                 return null;
             }
+
+            @Override
+            public Object getPosition(String symbol) {
+                return null;
+            }
         };
 
         // 创建简单的买入因子
@@ -64,7 +69,7 @@ public class BacktestEngineTest {
             }
 
             @Override
-            public double calculateBuySignal(String symbol, java.util.List<?> bars, Object ticker) {
+            public double calculateBuySignal(String symbol, java.util.List<com.whaleal.quant.model.Bar> bars, com.whaleal.quant.model.Ticker ticker) {
                 // 简单的随机买入信号
                 return Math.random();
             }
@@ -78,7 +83,7 @@ public class BacktestEngineTest {
             }
 
             @Override
-            public double calculateSellSignal(String symbol, Object position, Object order, java.util.List<?> bars, Object ticker) {
+            public double calculateSellSignal(String symbol, com.whaleal.quant.model.trading.Position position, com.whaleal.quant.model.trading.Order order, java.util.List<com.whaleal.quant.model.Bar> bars, com.whaleal.quant.model.Ticker ticker) {
                 // 简单的随机卖出信号
                 return Math.random();
             }

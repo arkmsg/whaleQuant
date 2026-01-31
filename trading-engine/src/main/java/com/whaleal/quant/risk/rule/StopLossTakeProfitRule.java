@@ -1,7 +1,7 @@
 package com.whaleal.quant.risk.rule;
 
-import com.whaleal.quant.model.Order;
-import com.whaleal.quant.model.Position;
+import com.whaleal.quant.model.trading.Order;
+import com.whaleal.quant.model.trading.Position;
 import com.whaleal.quant.risk.config.RiskConfig;
 import com.whaleal.quant.risk.exception.RiskException;
 import java.math.BigDecimal;
@@ -43,9 +43,9 @@ public class StopLossTakeProfitRule implements RiskRule {
 
     @Override
     public void checkPosition(Position position, RiskConfig config) {
-        BigDecimal avgPrice = position.getAvgPrice();
+        BigDecimal avgPrice = position.getAveragePrice();
         BigDecimal currentPrice = position.getCurrentPrice();
-        
+
         if (avgPrice == null || currentPrice == null) {
             return;
         }
@@ -54,22 +54,22 @@ public class StopLossTakeProfitRule implements RiskRule {
                 .divide(avgPrice, 4, BigDecimal.ROUND_HALF_UP);
 
         // 检查止损
-        if (priceChangePercentage.abs().compareTo(stopLossPercentage) > 0 && 
-            ((position.getSide().equals("LONG") && priceChangePercentage.signum() < 0) ||
-             (position.getSide().equals("SHORT") && priceChangePercentage.signum() > 0))) {
-            throw new RiskException("Position hit stop loss: " + position.getSymbol() + 
-                                   ", current price: " + currentPrice + 
-                                   ", avg price: " + avgPrice + 
+        if (priceChangePercentage.abs().compareTo(stopLossPercentage) > 0 &&
+            ((position.getDirection().equals("LONG") && priceChangePercentage.signum() < 0) ||
+             (position.getDirection().equals("SHORT") && priceChangePercentage.signum() > 0))) {
+            throw new RiskException("Position hit stop loss: " + position.getSymbol() +
+                                   ", current price: " + currentPrice +
+                                   ", avg price: " + avgPrice +
                                    ", change: " + priceChangePercentage.multiply(BigDecimal.valueOf(100)) + "%");
         }
 
         // 检查止盈
-        if (priceChangePercentage.abs().compareTo(takeProfitPercentage) > 0 && 
-            ((position.getSide().equals("LONG") && priceChangePercentage.signum() > 0) ||
-             (position.getSide().equals("SHORT") && priceChangePercentage.signum() < 0))) {
-            throw new RiskException("Position hit take profit: " + position.getSymbol() + 
-                                   ", current price: " + currentPrice + 
-                                   ", avg price: " + avgPrice + 
+        if (priceChangePercentage.abs().compareTo(takeProfitPercentage) > 0 &&
+            ((position.getDirection().equals("LONG") && priceChangePercentage.signum() > 0) ||
+             (position.getDirection().equals("SHORT") && priceChangePercentage.signum() < 0))) {
+            throw new RiskException("Position hit take profit: " + position.getSymbol() +
+                                   ", current price: " + currentPrice +
+                                   ", avg price: " + avgPrice +
                                    ", change: " + priceChangePercentage.multiply(BigDecimal.valueOf(100)) + "%");
         }
     }

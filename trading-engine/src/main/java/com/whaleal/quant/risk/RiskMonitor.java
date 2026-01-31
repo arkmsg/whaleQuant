@@ -1,7 +1,7 @@
 package com.whaleal.quant.risk;
 
-import com.whaleal.quant.model.Order;
-import com.whaleal.quant.model.Position;
+import com.whaleal.quant.model.trading.Order;
+import com.whaleal.quant.model.trading.Position;
 import com.whaleal.quant.risk.config.RiskConfig;
 import com.whaleal.quant.risk.exception.RiskException;
 

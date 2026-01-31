@@ -1,7 +1,7 @@
 package com.whaleal.quant.risk.rule;
 
-import com.whaleal.quant.model.Order;
-import com.whaleal.quant.model.Position;
+import com.whaleal.quant.model.trading.Order;
+import com.whaleal.quant.model.trading.Position;
 import com.whaleal.quant.risk.config.RiskConfig;
 import com.whaleal.quant.risk.exception.RiskException;
 import java.math.BigDecimal;
@@ -90,5 +90,10 @@ public class PositionConcentrationRule implements RiskRule {
         return allPositions.stream()
                 .map(position -> position.getCurrentPrice().multiply(position.getQuantity()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public String getName() {
+        return "Position Concentration Rule";
     }
 }

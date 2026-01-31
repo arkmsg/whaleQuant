@@ -1,6 +1,6 @@
 package com.whaleal.quant.risk.reconcile;
 
-import com.whaleal.quant.model.Position;
+import com.whaleal.quant.model.trading.Position;
 
 import java.util.List;
 

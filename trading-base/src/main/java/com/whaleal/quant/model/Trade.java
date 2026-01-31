@@ -1,5 +1,8 @@
 package com.whaleal.quant.model;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -10,6 +13,8 @@ import java.time.Instant;
  * @author whaleal
  * @version 1.0.0
  */
+@Data
+@Builder
 public class Trade {
 
     /**
@@ -33,6 +38,11 @@ public class Trade {
     private TradeType side;
 
     /**
+     * 交易方向 BUY/SELL
+     */
+    private String sideString;
+
+    /**
      * 交易数量
      */
     private BigDecimal quantity;
@@ -48,6 +58,16 @@ public class Trade {
     private BigDecimal amount;
 
     /**
+     * 手续费
+     */
+    private BigDecimal fee;
+
+    /**
+     * 手续费资产
+     */
+    private String feeAsset;
+
+    /**
      * 交易时间
      */
     private Instant timestamp;
@@ -58,83 +78,15 @@ public class Trade {
     private TradeType type;
 
     /**
+     * 数据来源
+     */
+    private String source;
+
+    /**
      * 交易类型枚举
      */
     public enum TradeType {
         BUY,
         SELL
-    }
-
-    // Getter and Setter methods
-    public String getTradeId() {
-        return tradeId;
-    }
-
-    public void setTradeId(String tradeId) {
-        this.tradeId = tradeId;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public TradeType getSide() {
-        return side;
-    }
-
-    public void setSide(TradeType side) {
-        this.side = side;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public Instant getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public TradeType getType() {
-        return type;
-    }
-
-    public void setType(TradeType type) {
-        this.type = type;
     }
 }

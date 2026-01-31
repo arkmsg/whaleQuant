@@ -1,4 +1,4 @@
-package com.whaleal.quant.trading.model;
+package com.whaleal.quant.model;
 
 import lombok.Builder;
 import lombok.Data;

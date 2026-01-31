@@ -1,6 +1,5 @@
 package com.whaleal.quant.slippage.model;
 
-import com.whaleal.quant.model.Order;
 import com.whaleal.quant.slippage.calculator.SlippageCalculator;
 import com.whaleal.quant.slippage.calculator.CommissionCalculator;
 import com.whaleal.quant.slippage.config.SlippageConfig;

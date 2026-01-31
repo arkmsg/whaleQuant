@@ -1,6 +1,6 @@
 package com.whaleal.quant.risk;
 
-import com.whaleal.quant.model.Order;
+import com.whaleal.quant.model.trading.Order;
 import java.time.LocalTime;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

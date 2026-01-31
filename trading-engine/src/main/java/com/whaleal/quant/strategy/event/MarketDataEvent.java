@@ -1,8 +1,11 @@
 package com.whaleal.quant.strategy.event;
 
-import com.whaleal.quant.trading.model.Ticker;
+import com.whaleal.quant.model.Bar;
+import com.whaleal.quant.model.Ticker;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * 市场数据事件
@@ -22,9 +25,19 @@ public class MarketDataEvent {
     private String eventId;
 
     /**
+     * 交易对符号
+     */
+    private String symbol;
+
+    /**
      * 行情数据
      */
     private Ticker ticker;
+
+    /**
+     * K线数据列表
+     */
+    private List<Bar> bars;
 
     /**
      * 事件时间戳
@@ -35,4 +48,6 @@ public class MarketDataEvent {
      * 数据来源
      */
     private String source;
+
+    // 使用@Builder注解生成的构造函数
 }

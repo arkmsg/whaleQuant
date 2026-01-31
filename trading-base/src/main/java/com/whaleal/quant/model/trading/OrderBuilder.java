@@ -1,7 +1,6 @@
-package com.whaleal.quant.strategy.builder;
+package com.whaleal.quant.model.trading;
 
-import com.whaleal.quant.model.Order;
-
+import com.whaleal.quant.model.trading.Order;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -223,18 +222,24 @@ public class OrderBuilder {
         }
 
         // 构建订单对象
-        Order order = new Order();
-        order.setOrderId(clientOrderId);
-        order.setSymbol(symbol);
-        order.setSide(Order.OrderSide.valueOf(side));
-        order.setType(Order.OrderType.valueOf(type));
-        order.setPrice(BigDecimal.valueOf(price));
-        order.setQuantity(BigDecimal.valueOf(quantity));
-        order.setExecutedQuantity(BigDecimal.ZERO);
-        order.setStatus(Order.OrderStatus.NEW);
-        order.setCreatedAt(Instant.now());
-        order.setUpdatedAt(Instant.now());
-        
+        Order order = Order.builder()
+            .orderId(clientOrderId)
+            .clientOrderId(clientOrderId)
+            .symbol(symbol)
+            .side(side)
+            .type(type)
+            .status("NEW")
+            .price(BigDecimal.valueOf(price))
+            .quantity(BigDecimal.valueOf(quantity))
+            .executedQty(BigDecimal.ZERO)
+            .executedAmount(BigDecimal.ZERO)
+            .avgPrice(BigDecimal.ZERO)
+            .timestamp(Instant.now())
+            .updateTime(Instant.now())
+            .source(source)
+            .market("BINANCE")
+            .build();
+
         return order;
     }
 

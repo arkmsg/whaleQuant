@@ -1,7 +1,5 @@
 package com.whaleal.quant.slippage.calculator;
 
-import com.whaleal.quant.model.Order;
-
 import java.math.BigDecimal;
 
 /**
@@ -34,7 +32,7 @@ public class PercentageSlippageCalculator implements SlippageCalculator {
     @Override
     public BigDecimal calculateExecutionPrice(Order order, BigDecimal marketPrice) {
         BigDecimal slippage = calculateSlippage(order, marketPrice);
-        
+
         if ("BUY".equals(order.getSide())) {
             // 买入时，执行价格高于市场价格
             return marketPrice.add(slippage);
@@ -42,7 +40,7 @@ public class PercentageSlippageCalculator implements SlippageCalculator {
             // 卖出时，执行价格低于市场价格
             return marketPrice.subtract(slippage);
         }
-        
+
         return marketPrice;
     }
 

@@ -1,6 +1,6 @@
 package com.whaleal.quant.risk.balance;
 
-import com.whaleal.quant.model.Order;
+import com.whaleal.quant.model.trading.Order;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;

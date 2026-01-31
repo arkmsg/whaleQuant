@@ -1,7 +1,5 @@
 package com.whaleal.quant.slippage.calculator;
 
-import com.whaleal.quant.model.Order;
-
 import java.math.BigDecimal;
 
 /**
@@ -37,7 +35,7 @@ public class VolumeBasedSlippageCalculator implements SlippageCalculator {
     @Override
     public BigDecimal calculateExecutionPrice(Order order, BigDecimal marketPrice) {
         BigDecimal slippage = calculateSlippage(order, marketPrice);
-        
+
         if ("BUY".equals(order.getSide())) {
             // 买入时，执行价格高于市场价格
             return marketPrice.add(slippage);
@@ -45,7 +43,7 @@ public class VolumeBasedSlippageCalculator implements SlippageCalculator {
             // 卖出时，执行价格低于市场价格
             return marketPrice.subtract(slippage);
         }
-        
+
         return marketPrice;
     }
 
@@ -53,16 +51,16 @@ public class VolumeBasedSlippageCalculator implements SlippageCalculator {
     public BigDecimal calculateSlippage(Order order, BigDecimal marketPrice) {
         BigDecimal orderValue = order.getPrice().multiply(order.getQuantity());
         BigDecimal marketVolume = getMarketVolume(order.getSymbol());
-        
+
         // 计算订单占市场成交量的比例
         BigDecimal volumeRatio = orderValue.divide(marketVolume, 6, BigDecimal.ROUND_HALF_UP);
-        
+
         // 计算基础滑点
         BigDecimal baseSlippage = marketPrice.multiply(baseSlippagePercentage);
-        
+
         // 计算成交量影响的滑点
         BigDecimal volumeImpact = marketPrice.multiply(volumeRatio).multiply(volumeImpactFactor);
-        
+
         // 总滑点
         return baseSlippage.add(volumeImpact);
     }

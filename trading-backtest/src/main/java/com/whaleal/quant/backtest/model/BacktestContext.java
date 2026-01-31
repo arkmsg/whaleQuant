@@ -1,7 +1,7 @@
 package com.whaleal.quant.backtest.model;
 
-import com.whaleal.quant.engine.trading.model.trading.Order;
-import com.whaleal.quant.engine.trading.model.trading.Position;
+import com.whaleal.quant.model.trading.Order;
+import com.whaleal.quant.model.trading.Position;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
