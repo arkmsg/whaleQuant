@@ -5,8 +5,8 @@ import com.whaleal.quant.alpha.factor.SellFactor;
 import com.whaleal.quant.backtest.data.MockBacktestDataProvider;
 import com.whaleal.quant.backtest.model.BacktestConfig;
 import com.whaleal.quant.backtest.result.BacktestResult;
-import com.whaleal.quant.engine.strategy.core.StrategyEngine;
-import com.whaleal.quant.engine.trading.service.TradingService;
+import com.whaleal.quant.strategy.core.StrategyEngine;
+import com.whaleal.quant.trading.service.TradingService;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

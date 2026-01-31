@@ -1,18 +1,13 @@
 package com.whaleal.quant.backtest.engine;
 
-import com.whaleal.quant.alpha.factor.BuyFactor;
-import com.whaleal.quant.alpha.factor.SellFactor;
-import com.whaleal.quant.alpha.factor.PickTimeFactor;
-import com.whaleal.quant.alpha.factor.PickStockFactor;
 import com.whaleal.quant.backtest.data.BacktestDataProvider;
 import com.whaleal.quant.backtest.model.BacktestConfig;
 import com.whaleal.quant.backtest.model.BacktestContext;
 import com.whaleal.quant.backtest.result.BacktestResult;
-import com.whaleal.quant.engine.strategy.core.StrategyEngine;
-import com.whaleal.quant.engine.trading.service.TradingService;
+import com.whaleal.quant.strategy.core.StrategyEngine;
 import com.whaleal.quant.engine.trading.model.trading.Order;
 import com.whaleal.quant.engine.trading.model.trading.Position;
-import com.whaleal.quant.engine.strategy.event.MarketDataEvent;
+import com.whaleal.quant.strategy.event.MarketDataEvent;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -116,7 +111,7 @@ public class BacktestEngine {
         while (!currentDate.isAfter(endDate)) {
             // 处理当日数据
             processDailyData(currentDate);
-            
+
             // 移动到下一个交易日
             currentDate = getNextTradingDay(currentDate);
         }

@@ -1,6 +1,6 @@
 package com.whaleal.quant.slippage.calculator;
 
-import com.whaleal.quant.base.model.Order;
+import com.whaleal.quant.model.Order;
 
 import java.math.BigDecimal;
 

@@ -1,7 +1,9 @@
 package com.whaleal.quant.backtest.engine;
 
+import com.whaleal.quant.backtest.data.BacktestDataProvider;
 import com.whaleal.quant.backtest.model.BacktestConfig;
 import com.whaleal.quant.backtest.result.BacktestResult;
+import com.whaleal.quant.strategy.core.StrategyEngine;
 import com.whaleal.quant.model.Bar;
 import java.util.List;
 
@@ -11,25 +13,53 @@ public class LayeredBacktestEngine {
     private BacktestEngine standardEngine;
     private BacktestEngine lowFrequencyEngine;
 
-    public LayeredBacktestEngine() {
-        this.highFrequencyEngine = new BacktestEngine();
-        this.standardEngine = new BacktestEngine();
-        this.lowFrequencyEngine = new BacktestEngine();
+    /**
+     * 构造方法
+     * @param dataProvider 数据提供者
+     * @param strategyEngine 策略引擎
+     */
+    public LayeredBacktestEngine(BacktestDataProvider dataProvider, StrategyEngine strategyEngine) {
+        this.highFrequencyEngine = BacktestEngine.builder()
+                .config(new BacktestConfig())
+                .dataProvider(dataProvider)
+                .strategyEngine(strategyEngine)
+                .build();
+
+        this.standardEngine = BacktestEngine.builder()
+                .config(new BacktestConfig())
+                .dataProvider(dataProvider)
+                .strategyEngine(strategyEngine)
+                .build();
+
+        this.lowFrequencyEngine = BacktestEngine.builder()
+                .config(new BacktestConfig())
+                .dataProvider(dataProvider)
+                .strategyEngine(strategyEngine)
+                .build();
+    }
+
+    public BacktestResult runHighFrequencyBacktest() {
+        return highFrequencyEngine.run();
+    }
+
+    public BacktestResult runStandardBacktest() {
+        return standardEngine.run();
+    }
+
+    public BacktestResult runLowFrequencyBacktest() {
+        return lowFrequencyEngine.run();
     }
 
     public BacktestResult runHighFrequencyBacktest(List<Bar> bars, BacktestConfig config) {
-        config.setFrequency("30m");
-        return highFrequencyEngine.run(bars, config);
+        return highFrequencyEngine.run();
     }
 
     public BacktestResult runStandardBacktest(List<Bar> bars, BacktestConfig config) {
-        config.setFrequency("1h");
-        return standardEngine.run(bars, config);
+        return standardEngine.run();
     }
 
     public BacktestResult runLowFrequencyBacktest(List<Bar> bars, BacktestConfig config) {
-        config.setFrequency("4h");
-        return lowFrequencyEngine.run(bars, config);
+        return lowFrequencyEngine.run();
     }
 
     public LayeredBacktestResult runLayeredBacktest(List<Bar> bars, BacktestConfig config) {

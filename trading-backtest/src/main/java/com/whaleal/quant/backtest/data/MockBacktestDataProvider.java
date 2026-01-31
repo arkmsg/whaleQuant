@@ -1,8 +1,8 @@
 package com.whaleal.quant.backtest.data;
 
-import com.whaleal.quant.base.model.Bar;
-import com.whaleal.quant.base.model.Ticker;
-import com.whaleal.quant.engine.strategy.event.MarketDataEvent;
+import com.whaleal.quant.model.Bar;
+import com.whaleal.quant.model.Ticker;
+import com.whaleal.quant.strategy.event.MarketDataEvent;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -41,17 +41,17 @@ public class MockBacktestDataProvider implements BacktestDataProvider {
 
         for (String symbol : symbols) {
             List<MarketDataEvent> events = new ArrayList<>();
-            
+
             // 生成模拟的K线数据
             List<Bar> bars = generateMockBars(symbol, date);
-            
+
             // 生成模拟的实时行情数据
             Ticker ticker = generateMockTicker(symbol, date);
-            
+
             // 创建市场数据事件
             MarketDataEvent event = new MarketDataEvent(symbol, ticker, bars);
             events.add(event);
-            
+
             dailyEvents.put(symbol, events);
         }
 
@@ -93,7 +93,7 @@ public class MockBacktestDataProvider implements BacktestDataProvider {
 
     private Ticker generateMockTicker(String symbol, LocalDateTime date) {
         Random random = new Random(symbol.hashCode() + date.getDayOfYear());
-        
+
         Ticker ticker = new Ticker();
         ticker.setSymbol(symbol);
         ticker.setPrice(100.0 + random.nextDouble() * 50.0);

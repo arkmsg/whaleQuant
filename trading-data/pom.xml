@@ -10,21 +10,21 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    
+
     <artifactId>trading-data</artifactId>
     <packaging>jar</packaging>
-    
+
     <name>Trading Data</name>
     <description>股票/加密货币行情数据存储与同步模块 - 支持多级缓存</description>
-    
+
     <properties>
-        <java.version>21</java.version>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.42</lombok.version>
     </properties>
-    
+
     <dependencies>
         <!-- Base Module -->
         <dependency>
@@ -32,32 +32,32 @@
             <artifactId>trading-base</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
         <!-- Spring Data MongoDB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-        
+
         <!-- Caffeine Cache -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
         </dependency>
-        
+
         <!-- Spring Data Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -65,5 +65,5 @@
             <version>2.0.9</version>
         </dependency>
     </dependencies>
-    
+
 </project>

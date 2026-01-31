@@ -24,52 +24,46 @@
     </properties>
 
     <dependencies>
-        <!-- Core Module -->
+        <!-- Core Modules -->
         <dependency>
             <groupId>com.whaleal.quant</groupId>
-            <artifactId>stocks-core</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <!-- Common Module -->
-        <dependency>
-            <groupId>com.whaleal.quant</groupId>
-            <artifactId>stocks-common</artifactId>
+            <artifactId>trading-base</artifactId>
             <version>1.0.0</version>
         </dependency>
 
         <!-- Data Module -->
         <dependency>
             <groupId>com.whaleal.quant</groupId>
-            <artifactId>stocks-data-sdk</artifactId>
+            <artifactId>trading-data</artifactId>
             <version>1.0.0</version>
-            <scope>test</scope>
+        </dependency>
+
+        <!-- Alpha Factor Module -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>alpha4j</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- AI Module -->
+        <dependency>
+            <groupId>com.whaleal.quant</groupId>
+            <artifactId>trading-ai</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <!-- Longport Module -->
         <dependency>
             <groupId>com.whaleal.quant</groupId>
-            <artifactId>longport-sdk</artifactId>
+            <artifactId>longport</artifactId>
             <version>1.0.0</version>
-            <scope>test</scope>
         </dependency>
 
-        <!-- Binance Module -->
+        <!-- Engine Module -->
         <dependency>
             <groupId>com.whaleal.quant</groupId>
-            <artifactId>binance-sdk</artifactId>
+            <artifactId>trading-engine</artifactId>
             <version>1.0.0</version>
-            <scope>test</scope>
-        </dependency>
-
-
-
-        <!-- Risk Module -->
-        <dependency>
-            <groupId>com.whaleal.quant</groupId>
-            <artifactId>stocks-risk-manager</artifactId>
-            <version>1.0.0</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Spring Boot Test -->

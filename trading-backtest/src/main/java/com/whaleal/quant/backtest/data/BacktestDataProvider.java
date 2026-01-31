@@ -1,6 +1,6 @@
 package com.whaleal.quant.backtest.data;
 
-import com.whaleal.quant.engine.strategy.event.MarketDataEvent;
+import com.whaleal.quant.strategy.event.MarketDataEvent;
 
 import java.time.LocalDateTime;
 import java.util.List;

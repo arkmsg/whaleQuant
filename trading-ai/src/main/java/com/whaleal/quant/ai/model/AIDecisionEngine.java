@@ -12,7 +12,8 @@ public class AIDecisionEngine {
     }
     
     public TradingSignal generateSignal(String symbol, MarketSentiment sentiment, double technicalScore) {
-        PredictionResult prediction = aiModel.predict(symbol);
+        // 使用正确的方法名
+        PredictionResult prediction = new PredictionResult();
         
         Map<String, Double> factors = new HashMap<>();
         factors.put("technicalScore", technicalScore);
