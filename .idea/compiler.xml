@@ -6,21 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="trading-ai" />
         <module name="trading-backtest" />
+        <module name="integration-test" />
+        <module name="trading-slippage" />
+        <module name="trading-ai" />
         <module name="trading-metrics" />
         <module name="trading-data" />
-        <module name="trading-slippage" />
         <module name="trading-examples" />
-      </profile>
-      <profile name="Annotation profile for Quant Trading Platform Parent" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
-        <module name="alpha4j" />
       </profile>
       <profile name="Annotation profile for longport" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -48,6 +40,15 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
         <module name="trading-engine" />
+      </profile>
+      <profile name="Annotation profile for Quant Trading Platform Parent" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="alpha4j" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
