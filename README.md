@@ -1,8 +1,8 @@
-# Quant Trading Platform SDK
+# WhaleQuant SDK
 
 ## 项目简介
 
-Quant Trading Platform SDK 是一个功能完整的量化交易平台开发工具包，提供了从数据获取、因子计算、策略执行到风险管理的全流程解决方案。
+WhaleQuant SDK 是一个功能完整的量化交易平台开发工具包，提供了从数据获取、因子计算、策略执行到风险管理的全流程解决方案。
 
 - **轻量级设计**：基础设施层（trading-base）移除了Spring依赖，保持轻量级
 - **模块化架构**：采用分层架构，各模块职责明确，易于扩展
@@ -23,13 +23,16 @@ Quant Trading Platform SDK 是一个功能完整的量化交易平台开发工�
 
 | 模块 | 层级 | 职责 | 依赖 |
 | --- | --- | --- | --- |
-| **trading-base** | L0 | 基础设施层，包含核心模型、枚举和指标 | 无 |
+| **trading-base** | L0 | 基础设施层，包含核心模型、枚举、指标和风险管理 | 无 |
 | **trading-data** | L1 | 数据层，负责数据存储和分发 | trading-base |
 | **longport** | L1 | 长桥证券SDK，负责港股、美股和A股的行情和交易 | trading-base |
 | **binance** | L1 | 币安交易所SDK，负责加密货币的行情和交易 | trading-base |
 | **alpha4j** | L2 | 因子计算层，负责Alpha因子的计算 | trading-base, trading-data |
 | **trading-ai** | L2 | AI层，负责AI模型的管理和预测 | trading-base, trading-data |
+| **trading-backtest** | L2 | 回测引擎层，包含分层回测验证 | trading-base, trading-data |
 | **trading-engine** | L3 | 交易引擎层，包含风险管理、策略和交易执行 | trading-base, trading-data, alpha4j |
+| **trading-slippage** | L3 | 滑点计算层，负责交易滑点的计算 | trading-base |
+| **trading-metrics** | L3 | 指标计算层，负责交易指标的计算 | trading-base |
 | **integration-test** | L4 | 集成测试 | 所有模块 |
 
 ### 核心功能
@@ -157,7 +160,7 @@ public class TechnicalAnalysisExample {
 import com.whaleal.quant.risk.DynamicSuppressionRiskControl;
 import com.whaleal.quant.risk.UMPRiskControl;
 import com.whaleal.quant.risk.TimeManagementRiskControl;
-import com.whaleal.quant.model.Order;
+import com.whaleal.quant.model.trading.Order;
 
 public class RiskManagementExample {
 
@@ -196,7 +199,7 @@ public class AIDecisionExample {
         AIDecisionEngine decisionEngine = new AIDecisionEngine(aiModel);
         
         // 创建市场情绪
-        MarketSentiment sentiment = new MarketSentiment(MarketSentiment.SentimentType.BULLISH, 0.8);
+        MarketSentiment sentiment = new MarketSentiment("AAPL", MarketSentiment.SentimentType.BULLISH, 0.8);
         
         // 生成交易信号
         TradingSignal signal = decisionEngine.generateSignal("AAPL", sentiment, 0.75);
@@ -218,7 +221,16 @@ import java.util.List;
 public class BacktestExample {
 
     public void runLayeredBacktest(List<Bar> bars) {
-        LayeredBacktestEngine engine = new LayeredBacktestEngine();
+        // 创建模拟数据提供者
+        var dataProvider = new com.whaleal.quant.backtest.data.MockBacktestDataProvider();
+        
+        // 创建策略引擎
+        var strategyEngine = com.whaleal.quant.strategy.core.StrategyEngine.builder()
+                .strategyName("TestStrategy")
+                .build();
+        
+        // 创建分层回测引擎
+        LayeredBacktestEngine engine = new LayeredBacktestEngine(dataProvider, strategyEngine);
         BacktestConfig config = new BacktestConfig();
         
         // 运行分层回测
